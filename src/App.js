@@ -1,25 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
-function App() {
+// custom components
+import Navbar from './components/layout/Navbar';
+import Contact from './components/contact/ContactTable';
+import AddContact from './components/contact/AddContact';
+import EditContact from './components/contact/EditContact';
+
+// css
+import './styles/App.scss';
+
+// redux
+import { Provider } from 'react-redux';
+import store from './store';
+
+function App() { 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <ReactNotification />
+          <div className="container">
+            <div className="py-3">
+              <Switch>
+                <Route exact path="/" component={Contact} />
+                <Route exact path="/contacts/add" component={AddContact} />
+                <Route exact path="/contacts/edit/:id" component={EditContact} />
+              </Switch>
+            </div>
+          </div>
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
